@@ -51,8 +51,9 @@ public class TodoCollection {
         this.collectionName = collectionName;
     }
 
-    public int todoCount()
+    public int todoCount() //length
     {
         return todoList.size();
     }
+
 }
