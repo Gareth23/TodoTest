@@ -19,7 +19,6 @@ public class Todo {
     private String description;
     private Date dueDate;
     private boolean completed;
-    private Date lastModified;
 
     @ManyToOne(fetch = FetchType.EAGER )
     private TodoCollection todoCollection;

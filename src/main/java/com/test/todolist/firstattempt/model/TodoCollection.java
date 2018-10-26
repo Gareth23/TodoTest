@@ -2,6 +2,7 @@ package com.test.todolist.firstattempt.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import javax.persistence.Id;
 import java.util.ArrayList;
@@ -16,10 +17,13 @@ public class TodoCollection {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
     private String collectionName;
-
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "todoCollection",cascade = CascadeType.ALL)
     @JsonIgnore
     private List<Todo> todoList;
+
+    @JsonInclude
+            @Transient
+    private int collectionCount;
 
     public TodoCollection(){}
     public TodoCollection(String collectionName) {
@@ -51,9 +55,12 @@ public class TodoCollection {
         this.collectionName = collectionName;
     }
 
-    public int todoCount() //length
+    public int getCollectionCount()
     {
-        return todoList.size();
+        return todoList == null ? 0 : todoList.size();
     }
 
+    public void setCollectionCount() {
+        this.collectionCount = todoList.size();
+    }
 }

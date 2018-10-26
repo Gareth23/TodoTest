@@ -49,17 +49,26 @@ public class InitialSeed implements CommandLineRunner {
 
         //Seed Categories
         List<Category> categories = new ArrayList<>();
-        categories.add( new Category("Shopping"));
-        categories.add( new Category("Cleaning"));
+        categories.add( new Category("Weekly"));
+        categories.add( new Category("Urgent"));
         categoryRepository.saveAll(categories);
 
         //Update Category
         Category dailyCategory = new Category("Daily");
         categoryRepository.save(dailyCategory);
-       // Todo todo = new Todo("Shower",homeCollection);
+        Category weeklyCategory = new Category("Weekly");
+        categoryRepository.save(weeklyCategory);
+
+        //Some Extra Todos
         Todo todo = new Todo("Shower","homeCollection");
+        todo.setTodoCollection(homeCollection);
         todo.setCategory(dailyCategory);
         todoRepository.save(todo);
+
+        Todo todo2 = new Todo("Clean House","Properly");
+        todo2.setTodoCollection(homeCollection);
+        todo2.setCategory(weeklyCategory);
+        todoRepository.save(todo2);
 
 
 
