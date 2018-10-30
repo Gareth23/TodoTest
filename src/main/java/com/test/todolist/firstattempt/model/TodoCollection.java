@@ -3,6 +3,7 @@ package com.test.todolist.firstattempt.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.Id;
 import java.util.ArrayList;
@@ -17,12 +18,13 @@ public class TodoCollection {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
     private String collectionName;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "todoCollection",cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "todoCollection")
     @JsonIgnore
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     private List<Todo> todoList;
 
     @JsonInclude
-            @Transient
+    @Transient
     private int collectionCount;
 
     public TodoCollection(){}

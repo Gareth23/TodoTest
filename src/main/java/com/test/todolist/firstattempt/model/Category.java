@@ -2,6 +2,7 @@ package com.test.todolist.firstattempt.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -16,8 +17,9 @@ public class Category {
     private int Id;
     private String name;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "category", cascade = CascadeType.ALL)
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
     @JsonIgnore
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
     private List<Todo> todoList;
 
     public Category(){}

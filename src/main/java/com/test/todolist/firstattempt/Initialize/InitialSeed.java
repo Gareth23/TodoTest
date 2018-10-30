@@ -10,8 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 @Component
 public class InitialSeed implements CommandLineRunner {
@@ -39,9 +38,6 @@ public class InitialSeed implements CommandLineRunner {
 
         //Seed Todo's
         List<Todo> todoList = new ArrayList<>();
-       // todoList.add(new Todo("FirstTodo",homeCollection));
-       // todoList.add(new Todo("SecondTodo",homeCollection));
-       // todoList.add(new Todo("ThirdTodo",workCollection));
          todoList.add(new Todo("FirstTodo","description"));
          todoList.add(new Todo("SecondTodo","desc2"));
          todoList.add(new Todo("ThirdTodo","desc3"));
@@ -50,7 +46,8 @@ public class InitialSeed implements CommandLineRunner {
         //Seed Categories
         List<Category> categories = new ArrayList<>();
         categories.add( new Category("Weekly"));
-        categories.add( new Category("Urgent"));
+        Category onceCategory = new Category("Once");
+        categories.add(onceCategory);
         categoryRepository.saveAll(categories);
 
         //Update Category
@@ -60,17 +57,46 @@ public class InitialSeed implements CommandLineRunner {
         categoryRepository.save(weeklyCategory);
 
         //Some Extra Todos
-        Todo todo = new Todo("Shower","homeCollection");
-        todo.setTodoCollection(homeCollection);
-        todo.setCategory(dailyCategory);
+        Date today = new Date();
+
+        Todo todo = new Todo("Church","Secret Valentine");
+        todo.setTodoCollection(workCollection);
+        todo.setCategory(onceCategory);
+        todo.setDueDate(addTime(today,5,0,0));
         todoRepository.save(todo);
+
+
+        Todo todo1 = new Todo("Shower","homeCollection");
+        todo1.setTodoCollection(homeCollection);
+        todo1.setCategory(dailyCategory);
+        todo1.setDueDate(addTime(today,0,0,20));
+        todoRepository.save(todo1);
+
+
 
         Todo todo2 = new Todo("Clean House","Properly");
         todo2.setTodoCollection(homeCollection);
         todo2.setCategory(weeklyCategory);
+        todo2.setDueDate(addTime(today,-70,0,0));
         todoRepository.save(todo2);
 
+        Todo todo3 = new Todo("Football Practise","Practise Again");
+        todo3.setTodoCollection(workCollection);
+        todo3.setCategory(weeklyCategory);
+        todo3.setDueDate(addTime(today,1,0,0));
+        todoRepository.save(todo3);
 
 
+    }
+
+    private Date addTime(Date date, int days, int hours, int minutes)
+    {
+        GregorianCalendar cal = new GregorianCalendar();
+        cal.setTime(date);
+        cal.add(Calendar.DATE,days);
+        cal.add(Calendar.HOUR,hours);
+        cal.add(Calendar.MINUTE,minutes);
+
+        return cal.getTime();
     }
 }
