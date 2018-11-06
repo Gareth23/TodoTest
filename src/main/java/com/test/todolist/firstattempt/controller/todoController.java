@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.stream.Collector;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @RestController
 @RequestMapping(value = "/todo")
@@ -43,10 +42,28 @@ public class todoController {
         return todoRepository.findAll();
     }
 
+
     @DeleteMapping("/remove/{id}")
     public void remove(@PathVariable int id){
         todoRepository.deleteById(id);
     }
+
+
+    @PostMapping("/updatedetails")
+    public void updateTodoDetails(@RequestBody Todo todo)
+    {
+        final Optional<Todo> tempTodo = todoRepository.findById(todo.getId());
+
+        Todo savedTodo = tempTodo.stream().findFirst().orElse(null);
+        savedTodo.setDueDate(todo.getDueDate());
+        savedTodo.setFrequency(todo.getFrequency());
+        savedTodo.setDescription(todo.getDescription());
+        savedTodo.setTitle(todo.getTitle());
+
+        todoRepository.save(savedTodo);
+
+    }
+
 
     @GetMapping("/incollection/{collectionId}")
     public List<Todo> getTodosInCollection(@PathVariable int collectionId)

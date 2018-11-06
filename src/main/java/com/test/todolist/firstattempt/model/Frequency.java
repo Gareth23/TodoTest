@@ -10,20 +10,20 @@ import java.util.List;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class Category {
+public class Frequency {
 
    @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "category")
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "frequency")
     @JsonIgnore
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
     private List<Todo> todoList;
 
-    public Category(){}
-    public Category(String name){
+    public Frequency(){}
+    public Frequency(String name){
         this.name = name;
         this.todoList = new ArrayList<>();
     }

@@ -2,7 +2,6 @@ package com.test.todolist.firstattempt.model;
 
 
 //import org.springframework.data.annotation.Id;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
 
@@ -24,7 +23,7 @@ public class Todo {
     private TodoCollection todoCollection;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    private Category category;
+    private Frequency frequency;
 
     public Todo(){}
     public Todo(String title, String description)
@@ -46,9 +45,9 @@ public class Todo {
 
     public boolean getCompleted() {  return completed;   }
 
-    public Category getCategory() {
-       // return category == null ? null : category.getName();
-        return category;
+    public Frequency getFrequency() {
+       // return frequency == null ? null : frequency.getName();
+        return frequency;
     }
 
     public TodoCollection getTodoCollection() {
@@ -70,7 +69,7 @@ public class Todo {
         this.title = title;
     }
 
-    public long getId() {
+    public int getId() {
         return id;
     }
 
@@ -78,7 +77,7 @@ public class Todo {
         this.todoCollection = todoCollection;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setFrequency(Frequency frequency) {
+        this.frequency = frequency;
     }
 }
