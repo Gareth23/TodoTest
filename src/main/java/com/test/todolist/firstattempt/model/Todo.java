@@ -20,7 +20,7 @@ public class Todo {
     private boolean completed;
 
     @ManyToOne(fetch = FetchType.EAGER )
-    private TodoCollection todoCollection;
+    private TodoCategory todoCategory;
 
     @ManyToOne(fetch = FetchType.EAGER)
     private Frequency frequency;
@@ -50,9 +50,8 @@ public class Todo {
         return frequency;
     }
 
-    public TodoCollection getTodoCollection() {
-        //return todoCollection == null ? null : todoCollection.getCollectionName();
-        return todoCollection;
+    public TodoCategory getTodoCategory() {
+        return todoCategory;
     }
 
     public void setCompleted(boolean completed) {  this.completed = completed;  }
@@ -73,8 +72,8 @@ public class Todo {
         return id;
     }
 
-    public void setTodoCollection(TodoCollection todoCollection) {
-        this.todoCollection = todoCollection;
+    public void setTodoCategory(TodoCategory todoCategory) {
+        this.todoCategory = todoCategory;
     }
 
     public void setFrequency(Frequency frequency) {

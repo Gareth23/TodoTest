@@ -1,7 +1,7 @@
 package com.test.todolist.firstattempt.repository;
 
 import com.test.todolist.firstattempt.model.Todo;
-import com.test.todolist.firstattempt.model.TodoCollection;
+import com.test.todolist.firstattempt.model.TodoCategory;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,7 +12,7 @@ public interface TodoRepository extends JpaRepository<Todo, Integer>{
 
     List<Todo> findByCompletedTrue();
 
-    List<Todo> findByTodoCollection(TodoCollection todoCollection);
+    List<Todo> findByTodoCategory(TodoCategory todoCategory);
 
 
 }

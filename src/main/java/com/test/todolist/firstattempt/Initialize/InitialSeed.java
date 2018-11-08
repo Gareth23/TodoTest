@@ -2,9 +2,9 @@ package com.test.todolist.firstattempt.Initialize;
 
 import com.test.todolist.firstattempt.model.Frequency;
 import com.test.todolist.firstattempt.model.Todo;
-import com.test.todolist.firstattempt.model.TodoCollection;
+import com.test.todolist.firstattempt.model.TodoCategory;
 import com.test.todolist.firstattempt.repository.FrequencyRepository;
-import com.test.todolist.firstattempt.repository.TodoCollectionRepository;
+import com.test.todolist.firstattempt.repository.TodoCategoryRepository;
 import com.test.todolist.firstattempt.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -16,13 +16,13 @@ import java.util.*;
 public class InitialSeed implements CommandLineRunner {
 
     private TodoRepository todoRepository;
-    private TodoCollectionRepository todoCollectionRepository;
+    private TodoCategoryRepository todoCategoryRepository;
     private FrequencyRepository frequencyRepository;
 
     @Autowired
-    public InitialSeed(TodoRepository todoRepository, TodoCollectionRepository todoCollectionRepository, FrequencyRepository frequencyRepository){
+    public InitialSeed(TodoRepository todoRepository, TodoCategoryRepository todoCategoryRepository, FrequencyRepository frequencyRepository){
         this.todoRepository = todoRepository;
-        this.todoCollectionRepository = todoCollectionRepository;
+        this.todoCategoryRepository = todoCategoryRepository;
         this.frequencyRepository = frequencyRepository;
     }
 
@@ -30,52 +30,52 @@ public class InitialSeed implements CommandLineRunner {
     public void run(String... args) throws Exception {
 
 
-        //Seed TodoCollection
-        TodoCollection homeCollection = new TodoCollection("Home");
-        TodoCollection workCollection = new TodoCollection("Work");
+        //Seed TodoCategory
+        TodoCategory homeCategory = new TodoCategory("Home");
+        TodoCategory workCategory = new TodoCategory("Work");
 
-        todoCollectionRepository.save(homeCollection);
-        todoCollectionRepository.save(workCollection);
+        todoCategoryRepository.save(homeCategory);
+        todoCategoryRepository.save(workCategory);
 
         //Update Frequency
-        Frequency dailyFrequency = new Frequency("Daily");
+        Frequency dailyFrequency = new Frequency("Once");
         frequencyRepository.save(dailyFrequency);
-        Frequency weeklyFrequency = new Frequency("Weekly");
+        Frequency weeklyFrequency = new Frequency("Daily");
         frequencyRepository.save(weeklyFrequency);
 
 
         //Seed Categories
         List<Frequency> frequencies = new ArrayList<>();
-        Frequency onceFrequency = new Frequency("Once");
-        Frequency monthlyFrequency = new Frequency("Monthly");
-        frequencies.add(onceFrequency);
+        Frequency monthlyFrequency = new Frequency("Weekly");
+        Frequency onceFrequency = new Frequency("Monthly");
         frequencies.add(monthlyFrequency);
+        frequencies.add(onceFrequency);
         frequencyRepository.saveAll(frequencies);
 
         //Seed Todos
         Date today = new Date();
 
         Todo todo = new Todo("Church","Secret Valentine");
-        todo.setTodoCollection(workCollection);
+        todo.setTodoCategory(workCategory);
         todo.setFrequency(onceFrequency);
         todo.setDueDate(addTime(today,5,0,0));
         todoRepository.save(todo);
 
 
-        Todo todo1 = new Todo("Shower","homeCollection");
-        todo1.setTodoCollection(homeCollection);
+        Todo todo1 = new Todo("Shower","homeCategory");
+        todo1.setTodoCategory(homeCategory);
         todo1.setFrequency(dailyFrequency);
         todo1.setDueDate(addTime(today,0,0,20));
         todoRepository.save(todo1);
 
         Todo todo2 = new Todo("Clean House","Properly");
-        todo2.setTodoCollection(homeCollection);
+        todo2.setTodoCategory(homeCategory);
         todo2.setFrequency(weeklyFrequency);
         todo2.setDueDate(addTime(today,-70,0,0));
         todoRepository.save(todo2);
 
         Todo todo3 = new Todo("Football Practise","Practise Again");
-        todo3.setTodoCollection(workCollection);
+        todo3.setTodoCategory(workCategory);
         todo3.setFrequency(weeklyFrequency);
         todo3.setDueDate(addTime(today,1,0,0));
         todoRepository.save(todo3);

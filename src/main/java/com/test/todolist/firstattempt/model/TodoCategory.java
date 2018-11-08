@@ -13,28 +13,28 @@ import javax.persistence.*;
 
 @Entity
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
-public class TodoCollection {
+public class TodoCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
-    private String collectionName;
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "todoCollection")
+    private String categoryName;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "todoCategory")
     @JsonIgnore
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
     private List<Todo> todoList;
 
     @JsonInclude
     @Transient
-    private int collectionCount;
+    private int categoryCount;
 
-    public TodoCollection(){}
-    public TodoCollection(String collectionName) {
-        this.collectionName = collectionName;
+    public TodoCategory(){}
+    public TodoCategory(String categoryName) {
+        this.categoryName = categoryName;
         this.todoList = new ArrayList<>();
     }
 
-    public String getCollectionName() {
-        return collectionName;
+    public String getCategoryName() {
+        return categoryName;
     }
 
     public int getId() {
@@ -53,16 +53,16 @@ public class TodoCollection {
         Id = id;
     }
 
-    public void setCollectionName(String collectionName) {
-        this.collectionName = collectionName;
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
     }
 
-    public int getCollectionCount()
+    public int getCategoryCount()
     {
         return todoList == null ? 0 : todoList.size();
     }
 
-    public void setCollectionCount() {
-        this.collectionCount = todoList.size();
+    public void setCategoryCount() {
+        this.categoryCount = todoList.size();
     }
 }

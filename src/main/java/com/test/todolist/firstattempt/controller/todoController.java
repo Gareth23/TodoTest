@@ -1,8 +1,8 @@
 package com.test.todolist.firstattempt.controller;
 
 import com.test.todolist.firstattempt.model.Todo;
-import com.test.todolist.firstattempt.model.TodoCollection;
-import com.test.todolist.firstattempt.repository.TodoCollectionRepository;
+import com.test.todolist.firstattempt.model.TodoCategory;
+import com.test.todolist.firstattempt.repository.TodoCategoryRepository;
 import com.test.todolist.firstattempt.repository.TodoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,18 +16,17 @@ import java.util.Optional;
 public class todoController {
 
     private TodoRepository todoRepository;
-    private TodoCollectionRepository todoCollectionRepository;
+    private TodoCategoryRepository todoCategoryRepository;
 
     @Autowired
-    public todoController(TodoRepository todoRepository, TodoCollectionRepository todoCollectionRepository) {
+    public todoController(TodoRepository todoRepository, TodoCategoryRepository todoCategoryRepository) {
         this.todoRepository = todoRepository;
-        this.todoCollectionRepository = todoCollectionRepository;
+        this.todoCategoryRepository = todoCategoryRepository;
     }
 
     @GetMapping("/all")
     public List<Todo> getTodo() {
-        List<Todo> todos =  todoRepository.findAll();
-        return todos;
+        return todoRepository.findAll();
     }
 
     @GetMapping("/completed")
@@ -55,23 +54,24 @@ public class todoController {
         final Optional<Todo> tempTodo = todoRepository.findById(todo.getId());
 
         Todo savedTodo = tempTodo.stream().findFirst().orElse(null);
-        savedTodo.setDueDate(todo.getDueDate());
-        savedTodo.setFrequency(todo.getFrequency());
-        savedTodo.setDescription(todo.getDescription());
-        savedTodo.setTitle(todo.getTitle());
-        savedTodo.setFrequency((todo.getFrequency()));
+        if (savedTodo != null) {
+            savedTodo.setDueDate(todo.getDueDate());
+            savedTodo.setFrequency(todo.getFrequency());
+            savedTodo.setDescription(todo.getDescription());
+            savedTodo.setTitle(todo.getTitle());
+            savedTodo.setFrequency((todo.getFrequency()));
 
-        todoRepository.save(savedTodo);
+            todoRepository.save(savedTodo);
+        }
 
     }
 
 
-    @GetMapping("/incollection/{collectionId}")
-    public List<Todo> getTodosInCollection(@PathVariable int collectionId)
+    @GetMapping("/incategory/{categoryId}")
+    public List<Todo> getTodosInCategory(@PathVariable int categoryId)
     {
-        TodoCollection collection = todoCollectionRepository.getOne(collectionId);
-        List<Todo> todos = todoRepository.findByTodoCollection(collection);
-        return todos;
+        TodoCategory category = todoCategoryRepository.getOne(categoryId);
+        return todoRepository.findByTodoCategory(category);
     }
 
 
