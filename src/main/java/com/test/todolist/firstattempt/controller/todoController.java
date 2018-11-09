@@ -60,10 +60,8 @@ public class todoController {
             savedTodo.setDescription(todo.getDescription());
             savedTodo.setTitle(todo.getTitle());
             savedTodo.setFrequency((todo.getFrequency()));
-
             todoRepository.save(savedTodo);
         }
-
     }
 
 
